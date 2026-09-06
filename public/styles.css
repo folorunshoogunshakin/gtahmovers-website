@@ -158,7 +158,7 @@ textarea { resize: vertical; min-height: 88px; }
 .consent input { width: auto; margin-top: 3px; }
 .form-note { font-size: 13px; color: var(--ink-muted); margin-top: 16px; }
 
-/* Footer, KK-Leasing-style icon contact block */
+/* Footer contact block with icon labels */
 footer.site { background: var(--green-deep); color: #B9C9C1; padding: 56px 0 28px; }
 .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.1fr; gap: 32px; }
 @media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
