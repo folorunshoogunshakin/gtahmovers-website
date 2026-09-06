@@ -36,60 +36,36 @@
 
     <!-- Slide 1: Home -->
     <div class="hero-slide active" data-slide="0">
-      <svg class="hero-scene" viewBox="0 0 1400 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#0B3F30"/>
-            <stop offset="55%" stop-color="#0E5A44"/>
-            <stop offset="100%" stop-color="#C99456"/>
-          </linearGradient>
-        </defs>
-        <rect x="0" y="0" width="1400" height="500" fill="url(#sky1)"/>
-        <g fill="#032A20" opacity="0.9">
-          <rect x="60" y="260" width="70" height="150"/><rect x="150" y="220" width="55" height="190"/>
-          <rect x="220" y="280" width="60" height="130"/><rect x="300" y="180" width="50" height="230"/>
-          <rect x="370" y="240" width="65" height="170"/><rect x="460" y="150" width="18" height="260"/>
-          <circle cx="469" cy="145" r="10"/><rect x="500" y="270" width="70" height="140"/>
-          <rect x="590" y="200" width="55" height="210"/><rect x="660" y="250" width="60" height="160"/>
-          <rect x="740" y="190" width="50" height="220"/><rect x="810" y="255" width="65" height="155"/>
-          <rect x="900" y="230" width="55" height="180"/><rect x="980" y="270" width="70" height="140"/>
-          <rect x="1070" y="210" width="50" height="200"/><rect x="1140" y="260" width="60" height="150"/>
-          <rect x="1220" y="235" width="55" height="175"/><rect x="1300" y="275" width="65" height="135"/>
-        </g>
-        <path d="M0,500 L500,410 L900,410 L1400,500 Z" fill="#1B231F"/>
-        <path d="M560,410 L840,410 L900,500 L500,500 Z" fill="#28332D"/>
-        <line x1="700" y1="415" x2="660" y2="500" stroke="#E4E4DE" stroke-width="6" stroke-dasharray="24 20"/>
-        <g transform="translate(660,440) scale(2.1)" fill="#F8F7F2">
-          <rect x="0" y="-16" width="24" height="16" rx="1"/>
-          <path d="M24,-10 h9 a2,2 0 0 1 2,2 v8 a1,1 0 0 1 -1,1 h-10 z"/>
-          <circle cx="7" cy="1" r="3.4"/><circle cx="28" cy="1" r="3.4"/>
-        </g>
-      </svg>
-      <div class="hero-overlay"></div>
+      <img class="hero-scene-blur" src="hero-home.jpg" alt="" aria-hidden="true">
+      <img class="hero-scene" src="hero-home.jpg" alt="Highway at dusk with a city skyline and a GTAH Movers branded truck in traffic">
       <div class="hero-content">
-        <h1>Quoted properly. Moved properly.</h1>
-        <p class="lede">Local moves across the GTA and Hamilton, corridor moves across Ontario, coast-to-coast moves Canada-wide, and cross-border moves into the USA. Tell us the details and we'll reply with a written quote within two hours.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="quote.html">Request a quote</a>
-          <a class="btn btn-secondary" style="background:rgba(255,255,255,0.08); color:#fff; border-color:rgba(255,255,255,0.4);" href="tel:+19055550000">Call (905) 555-0000</a>
-        </div>
-        <div class="hero-notes">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Two-hour quote turnaround</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Licensed, insured, WSIB registered</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Flat, itemized written quotes</span>
+        <div style="background:rgba(3,20,15,0.72); border-radius:12px; padding:28px 32px; display:inline-block; max-width:600px;">
+          <h1 style="color:#fff;">Quoted properly. Moved properly.</h1>
+          <p class="lede" style="color:#fff;">Local moves across the GTA and Hamilton, corridor moves across Ontario, coast-to-coast moves Canada-wide, and cross-border moves into the USA. Tell us the details and we'll reply with a written quote within two hours.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="quote.html">Request a quote</a>
+            <a class="btn btn-secondary" style="background:rgba(255,255,255,0.08); color:#fff; border-color:rgba(255,255,255,0.4);" href="tel:+19055550000">Call (905) 555-0000</a>
+          </div>
+          <div class="hero-notes">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Two-hour quote turnaround</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Licensed, insured, WSIB registered</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M4 12l5 5L20 6"/></svg>Flat, itemized written quotes</span>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Slide 2: About us -->
     <div class="hero-slide" data-slide="1">
+      <img class="hero-scene-blur" src="hero-about.jpg" alt="" aria-hidden="true">
       <img class="hero-scene" src="hero-about.jpg" alt="Highway traffic beneath a city skyline with overhead Hamilton and Ottawa signage, and a GTAH Movers truck in traffic">
-      <div class="hero-overlay"></div>
       <div class="hero-content">
-        <h1 style="white-space: normal; font-size: 34px; max-width: 18ch;">Built for the way moves actually go.</h1>
-        <p class="lede">GTAH Movers runs on flat, itemized quotes and a two-hour turnaround — not guesswork on invoice day. Licensed, insured, and WSIB registered, based right in the GTA and Hamilton.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="quote.html">Request a quote</a>
+        <div style="background:rgba(3,20,15,0.72); border-radius:12px; padding:28px 32px; display:inline-block; max-width:560px;">
+          <h1 style="white-space: normal; font-size: 34px; max-width: 18ch; margin-bottom:14px;">Built for the way moves actually go.</h1>
+          <p class="lede" style="color:#fff;">GTAH Movers runs on flat, itemized quotes and a two-hour turnaround — not guesswork on invoice day. Licensed, insured, and WSIB registered, based right in the GTA and Hamilton.</p>
+          <div class="hero-ctas" style="margin-top:20px;">
+            <a class="btn btn-primary" href="quote.html">Request a quote</a>
+          </div>
         </div>
       </div>
     </div>
@@ -104,6 +80,7 @@
           </linearGradient>
         </defs>
         <rect x="0" y="0" width="1400" height="500" fill="url(#sky3)"/>
+        <!-- Stacked boxes motif -->
         <g transform="translate(850,260)">
           <rect x="0" y="0" width="120" height="120" fill="#0F4A38"/>
           <rect x="10" y="10" width="100" height="6" fill="#C99456"/>
@@ -226,15 +203,18 @@
         </defs>
         <rect x="0" y="0" width="760" height="320" fill="url(#mapgrid)"/>
 
+        <!-- compass -->
         <g transform="translate(700,40)" stroke="#B8B2A0" stroke-width="1.5" fill="none">
           <line x1="0" y1="-14" x2="0" y2="14"/>
           <line x1="-14" y1="0" x2="14" y2="0"/>
         </g>
         <text x="700" y="24" font-family="Arial, sans-serif" font-size="11" fill="#B8B2A0" text-anchor="middle">N</text>
 
+        <!-- connecting route -->
         <path d="M70,150 C 220,190 330,120 380,190 C 430,240 480,160 520,175 C 570,190 610,150 650,190" fill="none" stroke="#D8D3C4" stroke-width="2"/>
         <path d="M380,190 L380,255" fill="none" stroke="#D8D3C4" stroke-width="2" stroke-dasharray="5 6"/>
 
+        <!-- Pin marker template reused via translate -->
         <g id="pins">
           <g transform="translate(70,150)">
             <path d="M0,-16 C8,-16 14,-10 14,-3 C14,8 0,22 0,22 C0,22 -14,8 -14,-3 C-14,-10 -8,-16 0,-16 Z" fill="#04503D"/>
