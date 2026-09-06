@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request a quote | GTAH Movers</title>
+<meta name="description" content="Tell GTAH Movers about your move. We'll follow up with a written, itemized quote within two hours.">
+<meta name="theme-color" content="#04503D">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <a href="index.html" class="brand">
+      <img class="brand-logo" src="gtah-logo.png" alt="GTAH Movers">
+    </a>
+    <nav class="primary links">
+      <a class="phone-link" href="tel:+19055550000">(905) 555-0000</a>
+    </nav>
+  </div>
+</header>
+
+<section style="padding-top:56px;">
+  <div class="container" style="max-width:720px;">
+    <h1 style="font-size:32px;">Tell us about your move</h1>
+    <p class="lede">Takes about two minutes. We'll review the details and reply with a written quote within two hours during business hours.</p>
+
+    <div class="quote-wrap" style="margin-top:24px;">
+      <form id="quote-form" action="https://formspree.io/f/mwlkqzel" method="POST">
+        <input type="hidden" name="_subject" value="New quote request — GTAH Movers website">
+        <div class="form-grid">
+          <div class="field"><label for="fn">First name</label><input id="fn" name="first_name" type="text" required></div>
+          <div class="field"><label for="ln">Last name</label><input id="ln" name="last_name" type="text" required></div>
+          <div class="field"><label for="ph">Phone</label><input id="ph" name="phone" type="tel" required></div>
+          <div class="field"><label for="em">Email</label><input id="em" name="email" type="email" required></div>
+          <div class="field"><label for="from">Moving from</label><input id="from" name="moving_from" type="text" placeholder="City or postal code"></div>
+          <div class="field"><label for="to">Moving to</label><input id="to" name="moving_to" type="text" placeholder="City or postal code"></div>
+          <div class="field"><label for="date">Preferred date</label><input id="date" name="preferred_date" type="date"></div>
+          <div class="field">
+            <label for="service">Service type</label>
+            <select id="service" name="service_type">
+              <option>Residential moving</option>
+              <option>Corridor / long-distance</option>
+              <option>Packing services</option>
+              <option>Office & commercial</option>
+            </select>
+          </div>
+          <div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes" name="notes" placeholder="Stairs, elevator, parking, or anything unusual"></textarea></div>
+          <div class="field full">
+            <label class="consent"><input type="checkbox" name="casl_consent" value="Yes" required> I agree to be contacted by GTAH Movers by phone, email, or text about this quote. You can unsubscribe at any time.</label>
+          </div>
+        </div>
+        <p class="form-note">Submitting this form does not book your move — we'll follow up with a written quote first.</p>
+        <button class="btn btn-primary" type="submit" style="margin-top:8px;">Request my quote</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const quoteForm = document.getElementById('quote-form');
+  if (quoteForm) {
+    quoteForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const submitBtn = quoteForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      fetch(quoteForm.action, {
+        method: 'POST',
+        body: new FormData(quoteForm),
+        headers: { 'Accept': 'application/json' }
+      }).then(function (response) {
+        if (response.ok) {
+          window.location.href = 'thank-you.html';
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Request my quote';
+          alert('Something went wrong sending your request. Please call us instead at (905) 555-0000.');
+        }
+      }).catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request my quote';
+        alert('Something went wrong sending your request. Please call us instead at (905) 555-0000.');
+      });
+    });
+  }
+</script>
+
+<footer class="site" style="padding:32px 0;">
+  <div class="container footer-bottom" style="border-top:none; margin-top:0;">
+    <span>© 2026 GTAH Movers. All rights reserved.</span>
+    <span><a href="tel:+19055550000">(905) 555-0000</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
