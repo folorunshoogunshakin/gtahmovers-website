@@ -36,6 +36,7 @@
 
     <!-- Slide 1: Home -->
     <div class="hero-slide active" data-slide="0">
+      <img class="hero-scene-blur" src="hero-home.jpg" alt="" aria-hidden="true">
       <img class="hero-scene" src="hero-home.jpg" alt="Highway at dusk with a city skyline and a GTAH Movers branded truck in traffic">
       <div class="hero-content">
         <div style="background:rgba(3,20,15,0.72); border-radius:12px; padding:28px 32px; display:inline-block; max-width:600px;">
@@ -56,7 +57,8 @@
 
     <!-- Slide 2: About us -->
     <div class="hero-slide" data-slide="1">
-      <img class="hero-scene" src="hero-about.jpg" alt="Highway traffic beneath a city skyline with overhead Hamilton and Ottawa signage, and a GTAH Movers truck in traffic" style="object-position: center 85%;">
+      <img class="hero-scene-blur" src="hero-about.jpg" alt="" aria-hidden="true">
+      <img class="hero-scene" src="hero-about.jpg" alt="Highway traffic beneath a city skyline with overhead Hamilton and Ottawa signage, and a GTAH Movers truck in traffic">
       <div class="hero-content">
         <div style="background:rgba(3,20,15,0.72); border-radius:12px; padding:28px 32px; display:inline-block; max-width:560px;">
           <h1 style="white-space: normal; font-size: 34px; max-width: 18ch; margin-bottom:14px;">Built for the way moves actually go.</h1>
@@ -78,6 +80,7 @@
           </linearGradient>
         </defs>
         <rect x="0" y="0" width="1400" height="500" fill="url(#sky3)"/>
+        <!-- Stacked boxes motif -->
         <g transform="translate(850,260)">
           <rect x="0" y="0" width="120" height="120" fill="#0F4A38"/>
           <rect x="10" y="10" width="100" height="6" fill="#C99456"/>
@@ -200,15 +203,18 @@
         </defs>
         <rect x="0" y="0" width="760" height="320" fill="url(#mapgrid)"/>
 
+        <!-- compass -->
         <g transform="translate(700,40)" stroke="#B8B2A0" stroke-width="1.5" fill="none">
           <line x1="0" y1="-14" x2="0" y2="14"/>
           <line x1="-14" y1="0" x2="14" y2="0"/>
         </g>
         <text x="700" y="24" font-family="Arial, sans-serif" font-size="11" fill="#B8B2A0" text-anchor="middle">N</text>
 
+        <!-- connecting route -->
         <path d="M70,150 C 220,190 330,120 380,190 C 430,240 480,160 520,175 C 570,190 610,150 650,190" fill="none" stroke="#D8D3C4" stroke-width="2"/>
         <path d="M380,190 L380,255" fill="none" stroke="#D8D3C4" stroke-width="2" stroke-dasharray="5 6"/>
 
+        <!-- Pin marker template reused via translate -->
         <g id="pins">
           <g transform="translate(70,150)">
             <path d="M0,-16 C8,-16 14,-10 14,-3 C14,8 0,22 0,22 C0,22 -14,8 -14,-3 C-14,-10 -8,-16 0,-16 Z" fill="#04503D"/>
