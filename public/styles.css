@@ -110,6 +110,17 @@ nav.primary a.cta { background: var(--green); color: #fff; padding: 10px 18px; b
 }
 .hero-dot.active { background: #fff; transform: scale(1.25); }
 
+/* Mobile: let the hero grow to fit its content instead of clipping it.
+   Desktop keeps the fixed-height crossfade; phones get a simpler,
+   auto-height version of the same slide so nothing gets cut off. */
+@media (max-width: 640px) {
+  .hero { overflow: visible; }
+  .hero-carousel { min-height: 0; }
+  .hero-slide { position: relative; display: none; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+  .hero-slide.active { display: flex; }
+  .hero-content { padding: 28px 20px 40px; }
+}
+
 /* Icon tiles (services) */
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 36px; }
 @media (max-width: 900px) { .tiles { grid-template-columns: 1fr 1fr; } }
