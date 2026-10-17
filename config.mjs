@@ -90,6 +90,21 @@ export const CONFIG = {
   // not-to-exceed figure (hourly quotes only).
   range: { low: 0.9, high: 1.1, notToExceed: 1.1 },
 
+  // How local (hourly) ranges are built.
+  //   "scenarioSpan": low from the lowest hours and crew in 7.3, high from the
+  //                   highest. Reproduces the 7.3 typical invoice table and
+  //                   keeps the not-to-exceed cap above a realistic worst case.
+  //   "appendixB":    midpoint, shown as minus 10 to plus 10 percent.
+  // Corridor and long-distance ranges always use minus 10 to plus 10 percent.
+  // OWNER DECISION (stage 1 review): scenarioSpan.
+  rangeMode: "scenarioSpan",
+
+  // Appendix B applies the access factor to hours only, so a corridor flat
+  // rate would ignore stairs, elevators and packing. When true, the access
+  // factor also scales the corridor flat rate.
+  // OWNER DECISION (stage 1 review): true. This departs slightly from Appendix B.
+  corridorUsesAccessFactor: true,
+
   // ASSUMPTION: round the displayed range to the nearest $10 (low down,
   // high up) so it does not look falsely precise. 0 turns rounding off.
   displayRoundTo: 10,

@@ -1,5 +1,5 @@
 name = "frosty-cell-bd93"
-main = "src/worker.mjs"
+main = "worker.mjs"
 compatibility_date = "2026-10-01"
 
 [assets]

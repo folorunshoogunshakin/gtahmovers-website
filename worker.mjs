@@ -4,8 +4,8 @@
 // Bindings (set up in Stage 4): DB (D1), ASSETS, and secrets
 // EXPORT_TOKEN (protects the CSV export) and FORMSPREE_URL (notification only).
 
-import { handleEstimateRequest } from "./api/estimate-handler.mjs";
-import { handleLeadRequest, leadsToCsv } from "./api/lead-handler.mjs";
+import { handleEstimateRequest } from "./estimate-handler.mjs";
+import { handleLeadRequest, leadsToCsv } from "./lead-handler.mjs";
 
 const json = (obj, status = 200, extra = {}) =>
   new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...extra } });
