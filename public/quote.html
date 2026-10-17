@@ -314,10 +314,10 @@
       fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
         .then(function (r) {
           if (r.ok) { window.location.href = 'thank-you.html'; return; }
-          if (r.status === 400) {
+          if (r.status === 400 || r.status === 429) {
             return r.json().then(function (d) {
               submitBtn.disabled = false; submitBtn.textContent = 'Request my quote';
-              alert((d.errors || ['Please check the form and try again.']).join('\n'));
+              alert(d.message || (d.errors || ['Please check the form and try again.']).join('\n'));
             });
           }
           throw new Error('server');
