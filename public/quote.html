@@ -11,6 +11,15 @@
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
+<style>
+  .est-box{margin-top:24px;padding:22px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg)}
+  .est-label{font-size:13px;font-weight:600;color:var(--ink-muted)}
+  .est-range{font-family:"Archivo",sans-serif;font-weight:700;font-size:34px;color:var(--green);margin:4px 0 8px;line-height:1.15}
+  .est-kind,.est-fine{font-size:14px;color:var(--ink-muted)}
+  .est-notes{margin:0 0 16px;padding-left:20px;font-size:14px;color:var(--ink-muted)}
+  .est-error{color:#9b2c2c;margin-top:16px}
+  @media (max-width:560px){.est-range{font-size:28px}.quote-wrap{padding:24px 18px}}
+</style>
 </head>
 <body>
 
@@ -30,9 +39,109 @@
     <h1 style="font-size:32px;">Tell us about your move</h1>
     <p class="lede">Takes about two minutes. We'll review the details and reply with a written quote within two hours during business hours.</p>
 
-    <div class="quote-wrap" style="margin-top:24px;">
+
+    <div class="quote-wrap estimator" id="estimator" style="margin-top:24px;">
+      <h2 style="font-size:22px;">Get an instant estimate</h2>
+      <p class="form-note" style="margin-top:0;">A quick tentative range based on your answers. Your written quote follows within two hours.</p>
+      <form id="est-form" novalidate>
+        <div class="form-grid">
+          <div class="field"><label for="e-from">Moving from</label>
+            <select id="e-from" required><option value="">Choose a city</option>
+              <option value="toronto">Toronto</option>
+              <option value="mississauga">Mississauga</option>
+              <option value="brampton">Brampton</option>
+              <option value="vaughan">Vaughan</option>
+              <option value="markham">Markham</option>
+              <option value="richmond_hill">Richmond Hill</option>
+              <option value="oakville">Oakville</option>
+              <option value="burlington">Burlington</option>
+              <option value="hamilton">Hamilton</option>
+              <option value="pickering">Pickering</option>
+              <option value="ajax">Ajax</option>
+              <option value="whitby">Whitby</option>
+              <option value="oshawa">Oshawa</option>
+              <option value="barrie">Barrie</option>
+              <option value="guelph">Guelph</option>
+              <option value="kitchener">Kitchener</option>
+              <option value="waterloo">Waterloo</option>
+              <option value="cambridge">Cambridge</option>
+              <option value="st_catharines">St. Catharines</option>
+              <option value="niagara_falls">Niagara Falls</option>
+              <option value="london">London</option>
+              <option value="windsor">Windsor</option>
+              <option value="peterborough">Peterborough</option>
+              <option value="kingston">Kingston</option>
+              <option value="ottawa">Ottawa</option>
+              <option value="montreal">Montreal</option>
+              <option value="other_canada">Other place in Canada</option>
+              <option value="united_states">United States</option>
+            </select></div>
+          <div class="field"><label for="e-to">Moving to</label>
+            <select id="e-to" required><option value="">Choose a city</option>
+              <option value="toronto">Toronto</option>
+              <option value="mississauga">Mississauga</option>
+              <option value="brampton">Brampton</option>
+              <option value="vaughan">Vaughan</option>
+              <option value="markham">Markham</option>
+              <option value="richmond_hill">Richmond Hill</option>
+              <option value="oakville">Oakville</option>
+              <option value="burlington">Burlington</option>
+              <option value="hamilton">Hamilton</option>
+              <option value="pickering">Pickering</option>
+              <option value="ajax">Ajax</option>
+              <option value="whitby">Whitby</option>
+              <option value="oshawa">Oshawa</option>
+              <option value="barrie">Barrie</option>
+              <option value="guelph">Guelph</option>
+              <option value="kitchener">Kitchener</option>
+              <option value="waterloo">Waterloo</option>
+              <option value="cambridge">Cambridge</option>
+              <option value="st_catharines">St. Catharines</option>
+              <option value="niagara_falls">Niagara Falls</option>
+              <option value="london">London</option>
+              <option value="windsor">Windsor</option>
+              <option value="peterborough">Peterborough</option>
+              <option value="kingston">Kingston</option>
+              <option value="ottawa">Ottawa</option>
+              <option value="montreal">Montreal</option>
+              <option value="other_canada">Other place in Canada</option>
+              <option value="united_states">United States</option>
+            </select></div>
+          <div class="field"><label for="e-size">Home size</label>
+            <select id="e-size" required>
+              <option value="">Choose size</option>
+              <option value="studio">Studio</option>
+              <option value="one_bed">1 bedroom</option>
+              <option value="two_bed">2 bedrooms</option>
+              <option value="three_bed">3 bedrooms</option>
+              <option value="four_bed">4 bedrooms</option>
+              <option value="five_plus">5+ bedrooms</option>
+            </select></div>
+          <div class="field"><label for="e-date">Move date</label><input id="e-date" type="date"></div>
+          <div class="field"><label for="e-elev">Elevator at either address</label>
+            <select id="e-elev">
+              <option value="not_needed">No elevator needed (house or ground floor)</option>
+              <option value="booked">Elevator, booked for us</option>
+              <option value="shared">Elevator, shared with other residents</option>
+              <option value="none">Upper floor, no elevator</option>
+            </select></div>
+          <div class="field"><label for="e-stairs">Extra flights of stairs</label>
+            <select id="e-stairs"><option value="0">None</option><option value="1">1</option><option value="2">2</option><option value="3">3 or more</option></select></div>
+          <div class="field"><label for="e-heavy">Heavy items (piano, safe, pool table)</label>
+            <select id="e-heavy"><option value="0">None</option><option value="1">1</option><option value="2">2</option><option value="3">3 or more</option></select></div>
+          <div class="field"><label for="e-pack">Packing help</label>
+            <select id="e-pack"><option value="false">No, we will pack</option><option value="true">Yes, please pack for us</option></select></div>
+        </div>
+        <button class="btn btn-primary" type="submit" id="est-btn" style="margin-top:20px;">Get my estimate</button>
+      </form>
+      <div id="est-result" role="status" aria-live="polite" hidden></div>
+    </div>
+
+    <div class="quote-wrap" id="request" style="margin-top:24px;">
       <form id="quote-form" action="https://formspree.io/f/mwlkqzel" method="POST">
         <input type="hidden" name="_subject" value="New quote request — GTAH Movers website">
+        <input type="hidden" name="instant_estimate" id="instant_estimate" value="">
+        <input type="hidden" name="estimate_inputs" id="estimate_inputs" value="">
         <div class="form-grid">
           <div class="field"><label for="fn">First name</label><input id="fn" name="first_name" type="text" required></div>
           <div class="field"><label for="ln">Last name</label><input id="ln" name="last_name" type="text" required></div>
@@ -51,6 +160,19 @@
             </select>
           </div>
           <div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes" name="notes" placeholder="Stairs, elevator, parking, or anything unusual"></textarea></div>
+          <div class="field full"><label for="heard">How did you hear about us?</label>
+            <select id="heard" name="heard_about_us" required>
+              <option value="">Please choose</option>
+              <option value="google">Google search</option>
+              <option value="social_media">Social media</option>
+              <option value="friend_family">Friend or family</option>
+              <option value="flyer_letter">Flyer or letter in the mail</option>
+              <option value="online_ad">Online ad</option>
+              <option value="review_site">Review site</option>
+              <option value="returning">I have moved with you before</option>
+              <option value="other">Other</option>
+            </select></div>
+          <div style="position:absolute;left:-9999px;" aria-hidden="true"><label>Leave this empty<input type="text" name="_gotcha" id="gotcha" tabindex="-1" autocomplete="off"></label></div>
           <div class="field full">
             <label class="consent"><input type="checkbox" name="casl_consent" value="Yes" required> I agree to be contacted by GTAH Movers by phone, email, or text about this quote. You can unsubscribe at any time.</label>
           </div>
@@ -63,30 +185,149 @@
 </section>
 
 <script>
+  (function () {
+    var form = document.getElementById('est-form');
+    if (!form) return;
+    var result = document.getElementById('est-result');
+    var btn = document.getElementById('est-btn');
+    var dateEl = document.getElementById('e-date');
+    var today = new Date().toISOString().slice(0, 10);
+    dateEl.min = today;
+    var $ = function (id) { return document.getElementById(id); };
+    function label(sel) { return sel.options[sel.selectedIndex].text; }
+    function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+    function prefill(est) {
+      $('from').value = label($('e-from'));
+      $('to').value = label($('e-to'));
+      if ($('e-date').value) $('date').value = $('e-date').value;
+      var inputs = label($('e-size')) + '; elevator: ' + label($('e-elev')) + '; extra stairs: ' + $('e-stairs').value +
+        '; heavy items: ' + $('e-heavy').value + '; packing: ' + ($('e-pack').value === 'true' ? 'yes' : 'no');
+      $('estimate_inputs').value = inputs;
+      $('instant_estimate').value = est || 'No instant estimate (manual quote)';
+      var n = $('notes');
+      if (!n.value) n.value = 'Estimator answers: ' + inputs;
+    }
+
+    function show(html, est) {
+      result.innerHTML = html;
+      result.hidden = false;
+      prefill(est);
+      var go = document.getElementById('go-request');
+      if (go) go.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('request').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('fn').focus({ preventScroll: true });
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!$('e-from').value || !$('e-to').value || !$('e-size').value) {
+        show('<p class="est-error">Please choose where you are moving from and to, and your home size.</p>', '');
+        return;
+      }
+      btn.disabled = true; btn.textContent = 'Working it out…';
+      var reqBody = {
+          fromCity: $('e-from').value, toCity: $('e-to').value, homeSize: $('e-size').value,
+          moveDate: $('e-date').value || null, elevatorStatus: $('e-elev').value,
+          stairsFlights: Number($('e-stairs').value), heavyItems: Number($('e-heavy').value),
+          packingRequired: $('e-pack').value === 'true'
+      };
+      window.gtahEstimateRequest = reqBody;
+      fetch('/api/estimate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromCity: $('e-from').value, toCity: $('e-to').value, homeSize: $('e-size').value,
+          moveDate: $('e-date').value || null, elevatorStatus: $('e-elev').value,
+          stairsFlights: Number($('e-stairs').value), heavyItems: Number($('e-heavy').value),
+          packingRequired: $('e-pack').value === 'true'
+        })
+      }).then(function (r) { return r.json(); }).then(function (d) {
+        var cta = '<p><a class="btn btn-primary" id="go-request" href="#request">Request my written quote</a></p>';
+        if (d.status === 'ok') {
+          var fmt = function (n) { return '$' + Number(n).toLocaleString('en-CA'); };
+          var rng = fmt(d.display.low) + ' to ' + fmt(d.display.high);
+          var notes = (d.notes || []).map(function (n) { return '<li>' + esc(n.message || n) + '</li>'; }).join('');
+          var kind = d.jobType === 'local' ? 'Local moves are billed by the hour, so this is a range, not a fixed price.' :
+            'Based on a flat rate for this route and your answers.';
+          show('<div class="est-box"><div class="est-label">Tentative estimate before HST</div>' +
+            '<div class="est-range">' + esc(rng) + '</div><p class="est-kind">' + esc(kind) + '</p>' +
+            (notes ? '<ul class="est-notes">' + notes + '</ul>' : '') +
+            '<p class="est-fine">This is a tentative estimate. Your written quote, sent within two hours, is the one that binds.</p>' + cta + '</div>',
+            rng + ' before HST');
+        } else if (d.status === 'manual') {
+          show('<div class="est-box"><p><strong>We will quote this one by hand.</strong></p><p>' + esc(d.message) + '</p>' + cta + '</div>', '');
+        } else {
+          show('<p class="est-error">Please check your answers and try again.</p>', '');
+        }
+      }).catch(function () {
+        show('<div class="est-box"><p>The estimator is unavailable right now. Send us your details below and we will reply with a written quote, or call (613) 770-1748.</p>' +
+          '<p><a class="btn btn-primary" id="go-request" href="#request">Request my written quote</a></p></div>', '');
+      }).finally(function () { btn.disabled = false; btn.textContent = 'Get my estimate'; });
+    });
+  })();
+  // Remember where the visitor came from (first touch wins for the session).
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search), keep = {};
+      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function (k) { if (p.get(k)) keep[k] = p.get(k); });
+      var saved = JSON.parse(sessionStorage.getItem('gtah_attr') || 'null');
+      if (!saved) { saved = { utm: keep, referrer: document.referrer || '', landing: location.pathname }; }
+      else if (Object.keys(keep).length && !Object.keys(saved.utm).length) { saved.utm = keep; }
+      sessionStorage.setItem('gtah_attr', JSON.stringify(saved));
+    } catch (e) {}
+  })();
+  function attribution() {
+    try { return JSON.parse(sessionStorage.getItem('gtah_attr')) || { utm: {} }; } catch (e) { return { utm: {} }; }
+  }
+
   const quoteForm = document.getElementById('quote-form');
   if (quoteForm) {
     quoteForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const submitBtn = quoteForm.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
-      fetch(quoteForm.action, {
-        method: 'POST',
-        body: new FormData(quoteForm),
-        headers: { 'Accept': 'application/json' }
-      }).then(function (response) {
-        if (response.ok) {
-          window.location.href = 'thank-you.html';
-        } else {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Request my quote';
-          alert('Something went wrong sending your request. Please call us instead at (613) 770-1748 or (647) 544-8571.');
-        }
-      }).catch(function () {
+      const fail = function () {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Request my quote';
         alert('Something went wrong sending your request. Please call us instead at (613) 770-1748 or (647) 544-8571.');
-      });
+      };
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      const f = new FormData(quoteForm), a = attribution(), utm = a.utm || {};
+      const est = window.gtahEstimateRequest || null;
+      const payload = {
+        first_name: f.get('first_name'), last_name: f.get('last_name'), phone: f.get('phone'), email: f.get('email'),
+        moving_from: f.get('moving_from'), moving_to: f.get('moving_to'), preferred_date: f.get('preferred_date'),
+        service_type: f.get('service_type'), notes: f.get('notes'), heard_about_us: f.get('heard_about_us'),
+        casl_consent: f.get('casl_consent') === 'Yes',
+        casl_consent_text: quoteForm.querySelector('.consent').textContent.trim(),
+        _gotcha: f.get('_gotcha'),
+        utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign,
+        utm_term: utm.utm_term, utm_content: utm.utm_content,
+        referrer: a.referrer, landing_page: a.landing || location.pathname,
+        estimate_request: est
+      };
+
+      fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function (r) {
+          if (r.ok) { window.location.href = 'thank-you.html'; return; }
+          if (r.status === 400) {
+            return r.json().then(function (d) {
+              submitBtn.disabled = false; submitBtn.textContent = 'Request my quote';
+              alert((d.errors || ['Please check the form and try again.']).join('\n'));
+            });
+          }
+          throw new Error('server');
+        })
+        .catch(function () {
+          // Safety net: if our own server is unreachable, send straight to Formspree so no lead is lost.
+          fetch(quoteForm.action, { method: 'POST', body: new FormData(quoteForm), headers: { 'Accept': 'application/json' } })
+            .then(function (r) { if (r.ok) { window.location.href = 'thank-you.html'; } else { fail(); } })
+            .catch(fail);
+        });
     });
   }
 </script>
