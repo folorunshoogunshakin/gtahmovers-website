@@ -7,6 +7,10 @@
 import { handleEstimateRequest } from "./estimate-handler.mjs";
 import { handleLeadRequest, leadsToCsv } from "./lead-handler.mjs";
 
+// The form endpoint is already public in the website source, so a built-in default is safe.
+// Setting the FORMSPREE_URL secret overrides it.
+const DEFAULT_FORMSPREE_URL = "https://formspree.io/f/mwlkqzel";
+
 const json = (obj, status = 200, extra = {}) =>
   new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...extra } });
 
@@ -65,7 +69,7 @@ export default {
         now: new Date(),
         ip: request.headers.get("CF-Connecting-IP"),
         store: d1Store(env.DB),
-        notify: formspreeNotify(env.FORMSPREE_URL),
+        notify: formspreeNotify(env.FORMSPREE_URL || DEFAULT_FORMSPREE_URL),
       });
       return json(out, httpStatus);
     }
