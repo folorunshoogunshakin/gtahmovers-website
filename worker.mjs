@@ -6,10 +6,7 @@
 
 import { handleEstimateRequest } from "./estimate-handler.mjs";
 import { handleLeadRequest, leadsToCsv } from "./lead-handler.mjs";
-
-// The form endpoint is already public in the website source, so a built-in default is safe.
-// Setting the FORMSPREE_URL secret overrides it.
-const DEFAULT_FORMSPREE_URL = "https://formspree.io/f/mwlkqzel";
+import { makeNotifier } from "./notify.mjs";
 
 const json = (obj, status = 200, extra = {}) =>
   new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...extra } });
@@ -43,18 +40,6 @@ function d1Store(db) {
   };
 }
 
-function formspreeNotify(url) {
-  return async (payload) => {
-    if (!url) return false;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
-    });
-    return res.ok;
-  };
-}
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -69,7 +54,7 @@ export default {
         now: new Date(),
         ip: request.headers.get("CF-Connecting-IP"),
         store: d1Store(env.DB),
-        notify: formspreeNotify(env.FORMSPREE_URL || DEFAULT_FORMSPREE_URL),
+        notify: makeNotifier(env),
       });
       return json(out, httpStatus);
     }
