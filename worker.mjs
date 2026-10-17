@@ -34,6 +34,18 @@ function d1Store(db) {
         .run();
       return res.meta.last_row_id;
     },
+    async countRecent({ ip, email, since }) {
+      const row = await db
+        .prepare(
+          "SELECT COUNT(*) AS total, " +
+          "COALESCE(SUM(CASE WHEN consent_ip = ?1 THEN 1 ELSE 0 END), 0) AS ip, " +
+          "COALESCE(SUM(CASE WHEN email = ?2 THEN 1 ELSE 0 END), 0) AS email " +
+          "FROM leads WHERE created_at >= ?3"
+        )
+        .bind(ip, email, since)
+        .first();
+      return { total: row.total, ip: row.ip, email: row.email };
+    },
     async setNotifyStatus(id, status) {
       await db.prepare("UPDATE leads SET notify_status = ? WHERE id = ?").bind(status, id).run();
     },

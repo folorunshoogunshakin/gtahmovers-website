@@ -7,6 +7,8 @@
 
 import { handleEstimateRequest } from "./estimate-handler.mjs";
 
+export const RATE_LIMITS = { windowMs: 60 * 60 * 1000, perIp: 5, perEmail: 3, total: 100 };
+
 const MAX = { short: 200, notes: 3000 };
 const clean = (v, max = MAX.short) => (v == null ? "" : String(v).trim().slice(0, max));
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -123,6 +125,21 @@ export async function handleLeadRequest(body, deps) {
   const built = buildLeadRecord(body, deps);
   if (!built.ok) return { httpStatus: 400, json: { status: "invalid", errors: built.errors } };
   if (built.spam) return { httpStatus: 200, json: { status: "ok" } }; // silently drop bots
+
+  // Abuse limits, checked before saving. Uses the lead table itself, so it works
+  // across every Worker instance. (Cloudflare's free rate-limit rule only allows
+  // a 10-second window, which is too short to stop slow spam.)
+  if (deps.store.countRecent) {
+    const since = new Date(deps.now.getTime() - RATE_LIMITS.windowMs).toISOString();
+    const c = await deps.store.countRecent({ ip: deps.ip || null, email: built.record.email, since });
+    if (
+      (deps.ip && c.ip >= RATE_LIMITS.perIp) ||
+      c.email >= RATE_LIMITS.perEmail ||
+      c.total >= RATE_LIMITS.total
+    ) {
+      return { httpStatus: 429, json: { status: "rate_limited", message: "Too many requests. Please call us instead." } };
+    }
+  }
 
   let id;
   try {
