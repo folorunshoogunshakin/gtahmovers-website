@@ -20,6 +20,7 @@ export function formatEmailText(p) {
     `Service:    ${p.service_type}`,
     "",
     `Instant estimate: ${p.instant_estimate}`,
+    `Distance: ${p.distance || "n/a"}`,
     `Estimator answers: ${p.estimate_inputs || "none"}`,
     "",
     `Notes: ${p.notes || "none"}`,

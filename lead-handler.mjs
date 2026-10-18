@@ -97,7 +97,7 @@ export const LEAD_COLUMNS = [
 ];
 
 /** Notification body sent to Formspree (it emails it to you). */
-export function notificationPayload(id, r) {
+export function notificationPayload(id, r, distanceSource = null) {
   const money = (n) => (n == null ? null : "$" + n.toLocaleString("en-CA"));
   const est = r.estimate_low != null ? `${money(r.estimate_low)} to ${money(r.estimate_high)} before HST (${r.estimate_job_type})` : "No instant estimate";
   return {
@@ -111,6 +111,7 @@ export function notificationPayload(id, r) {
     preferred_date: r.preferred_date,
     service_type: r.service_type,
     instant_estimate: est,
+    distance: r.estimate_distance_km != null ? `about ${r.estimate_distance_km} km (${distanceSource === "address" ? "from the addresses, via Google" : "city-to-city estimate"})` : "not calculated",
     estimate_inputs: r.estimate_inputs || "",
     notes: r.notes,
     heard_about_us: r.heard_about_us,
@@ -162,7 +163,7 @@ export async function handleLeadRequest(body, deps) {
   // The lead is safe. Now notify; a failure here must not fail the request.
   let status = "failed";
   try {
-    status = (await deps.notify(notificationPayload(id, built.record))) ? "sent" : "failed";
+    status = (await deps.notify(notificationPayload(id, built.record, distanceKm != null ? "address" : "city"))) ? "sent" : "failed";
   } catch (err) {
     console.error("notify failed", err);
   }
