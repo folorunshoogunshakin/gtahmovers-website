@@ -20,7 +20,8 @@ const toInt = (v) => (v === "" || v === null || v === undefined ? 0 : Number(v))
  *     stairsFlights, packingRequired, heavyItems }
  * @returns {{ httpStatus: number, json: object }}
  */
-export function handleEstimateRequest(body, cfg = CONFIG) {
+export function handleEstimateRequest(body, cfg = CONFIG, opts = {}) {
+  const givenKm = Number.isFinite(opts.distanceKm) && opts.distanceKm >= 0 ? Math.round(opts.distanceKm) : null;
   if (!body || typeof body !== "object") {
     return { httpStatus: 400, json: { status: "invalid", errors: ["Request body must be a JSON object"] } };
   }
@@ -47,7 +48,7 @@ export function handleEstimateRequest(body, cfg = CONFIG) {
   }
 
   // A Canadian city that is not in the list: distance needs a real address.
-  if (body.fromCity === OTHER_CANADA || body.toCity === OTHER_CANADA) {
+  if (givenKm === null && (body.fromCity === OTHER_CANADA || body.toCity === OTHER_CANADA)) {
     return {
       httpStatus: 200,
       json: {
@@ -58,7 +59,18 @@ export function handleEstimateRequest(body, cfg = CONFIG) {
     };
   }
 
-  const distanceKm = roadDistanceKm(body.fromCity, body.toCity);
+  const distanceKm = givenKm !== null ? givenKm : roadDistanceKm(body.fromCity, body.toCity);
+
+  if (distanceKm > (cfg.routing?.manualAboveKm ?? Infinity)) {
+    return {
+      httpStatus: 200,
+      json: {
+        status: "manual",
+        reason: "very_long_distance",
+        message: "This is a very long move, so we quote it individually. Send us the details below and we will reply with a written quote.",
+      },
+    };
+  }
 
   const result = estimate(
     {
@@ -87,6 +99,7 @@ export function handleEstimateRequest(body, cfg = CONFIG) {
       jobType: result.jobType,
       display: result.display,
       distanceKmApprox: Math.round(distanceKm / 5) * 5,
+      distanceSource: givenKm !== null ? "address" : "city",
       notes: result.notes,
     },
   };

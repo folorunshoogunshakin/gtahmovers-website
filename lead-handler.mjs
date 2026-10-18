@@ -75,14 +75,14 @@ export function buildLeadRecord(body, ctx) {
   // Re-run the estimate on the server from the structured answers.
   const e = body.estimate_request;
   if (e && typeof e === "object") {
-    const { httpStatus, json } = handleEstimateRequest(e);
+    const { httpStatus, json } = handleEstimateRequest(e, undefined, { distanceKm: ctx.distanceKm });
     if (httpStatus === 200 && json.status === "ok") {
       r.estimate_low = json.display.low;
       r.estimate_high = json.display.high;
       r.estimate_job_type = json.jobType;
       r.estimate_distance_km = json.distanceKmApprox;
     }
-    r.estimate_inputs = JSON.stringify(e).slice(0, 1000);
+    r.estimate_inputs = JSON.stringify(e).slice(0, 1500);
   }
 
   return errors.length ? { ok: false, errors } : { ok: true, record: r };
@@ -126,7 +126,13 @@ export function notificationPayload(id, r) {
  * @returns {Promise<{httpStatus:number, json:object}>}
  */
 export async function handleLeadRequest(body, deps) {
-  const built = buildLeadRecord(body, deps);
+  // If the customer got an address-based distance, reuse it (cache only, never a
+  // new paid lookup) so the saved estimate matches what they saw.
+  let distanceKm = null;
+  if (deps.routeKm && body && typeof body === "object" && body.estimate_request) {
+    try { distanceKm = await deps.routeKm(body.estimate_request); } catch { distanceKm = null; }
+  }
+  const built = buildLeadRecord(body, { ...deps, distanceKm });
   if (!built.ok) return { httpStatus: 400, json: { status: "invalid", errors: built.errors } };
   if (built.spam) return { httpStatus: 200, json: { status: "ok" } }; // silently drop bots
 

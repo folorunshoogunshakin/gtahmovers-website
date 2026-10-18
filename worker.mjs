@@ -4,7 +4,7 @@
 // Bindings (set up in Stage 4): DB (D1), ASSETS, and secrets
 // EXPORT_TOKEN (protects the CSV export) and FORMSPREE_URL (notification only).
 
-import { handleEstimateRequest } from "./estimate-handler.mjs";
+import { handleEstimateWithRoutes, resolveRouteKm } from "./routes.mjs";
 import { handleLeadRequest, leadsToCsv } from "./lead-handler.mjs";
 import { makeNotifier } from "./notify.mjs";
 
@@ -52,12 +52,44 @@ function d1Store(db) {
   };
 }
 
+function d1Routes(db) {
+  return {
+    cache: {
+      async get(key) {
+        const row = await db.prepare("SELECT km FROM route_cache WHERE key = ?").bind(key).first();
+        return row ? row.km : null;
+      },
+      async put(key, km, iso) {
+        await db.prepare("INSERT OR REPLACE INTO route_cache (key, km, created_at) VALUES (?,?,?)").bind(key, km, iso).run();
+      },
+    },
+    limiter: {
+      async countSince(iso, ip) {
+        const row = ip
+          ? await db.prepare("SELECT COUNT(*) AS n FROM route_calls WHERE created_at >= ? AND ip = ?").bind(iso, ip).first()
+          : await db.prepare("SELECT COUNT(*) AS n FROM route_calls WHERE created_at >= ?").bind(iso).first();
+        return row ? row.n : 0;
+      },
+      async log(ip, iso) {
+        await db.prepare("INSERT INTO route_calls (ip, created_at) VALUES (?,?)").bind(ip, iso).run();
+      },
+    },
+  };
+}
+
+// Any database trouble in the routing tables must never break the estimator.
+function routeDeps(env, request, extra = {}) {
+  try {
+    return { ...d1Routes(env.DB), apiKey: env.GOOGLE_MAPS_API_KEY, ip: request.headers.get("CF-Connecting-IP"), now: new Date(), ...extra };
+  } catch { return {}; }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/estimate" && request.method === "POST") {
-      const { httpStatus, json: out } = handleEstimateRequest(await readJson(request));
+      const { httpStatus, json: out } = await handleEstimateWithRoutes(await readJson(request), routeDeps(env, request));
       return json(out, httpStatus);
     }
 
@@ -67,6 +99,7 @@ export default {
         ip: request.headers.get("CF-Connecting-IP"),
         store: d1Store(env.DB),
         notify: makeNotifier(env),
+        routeKm: async (e) => (await resolveRouteKm(e, routeDeps(env, request, { cacheOnly: true }))).km,
       });
       return json(out, httpStatus);
     }

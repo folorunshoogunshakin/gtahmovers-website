@@ -65,6 +65,12 @@ export const CONFIG = {
 
   // 7.2 Distance bands (Appendix B step 7) and corridor flat rates.
   distanceBands: { localMaxKm: 60, corridorMaxKm: 150 },
+
+  // Google Routes (real addresses). ASSUMPTIONS, owner to confirm.
+  // dailyCallCap: max paid Google lookups in any rolling 24 hours (cost guard).
+  // perIpPerHour: max paid lookups from one visitor per hour.
+  // manualAboveKm: beyond this, no instant range (a person quotes it).
+  routing: { dailyCallCap: 300, perIpPerHour: 20, manualAboveKm: 2500, timeoutMs: 4000 },
   corridorTiers: { 1: 1450, 2: 2150, 3: 3200 },
 
   // Appendix B step 4: access factor additions.
