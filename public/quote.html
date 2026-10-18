@@ -210,6 +210,7 @@
     }
 
     function show(html, est) {
+      if (!est) window.gtahEstimateSummary = null;
       result.innerHTML = html;
       result.hidden = false;
       prefill(est);
@@ -249,6 +250,7 @@
         if (d.status === 'ok') {
           var fmt = function (n) { return '$' + Number(n).toLocaleString('en-CA'); };
           var rng = fmt(d.display.low) + ' to ' + fmt(d.display.high);
+          window.gtahEstimateSummary = { range: rng, route: label($('e-from')) + ' to ' + label($('e-to')), size: label($('e-size')), date: $('e-date').value || '' };
           var notes = (d.notes || []).map(function (n) { return '<li>' + esc(n.message || n) + '</li>'; }).join('');
           var kind = d.jobType === 'local' ? 'Local moves are billed by the hour, so this is a range, not a fixed price.' :
             'Based on a flat rate for this route and your answers.';
@@ -283,6 +285,14 @@
     try { return JSON.parse(sessionStorage.getItem('gtah_attr')) || { utm: {} }; } catch (e) { return { utm: {} }; }
   }
 
+  // Hand the estimate to the thank-you page (browser memory only, cleared after it is shown).
+  function rememberEstimate(id) {
+    try {
+      var s = window.gtahEstimateSummary;
+      if (s) { s.id = id || null; sessionStorage.setItem('gtah_last_estimate', JSON.stringify(s)); }
+    } catch (e) {}
+  }
+
   const quoteForm = document.getElementById('quote-form');
   if (quoteForm) {
     quoteForm.addEventListener('submit', function (e) {
@@ -313,7 +323,10 @@
 
       fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
         .then(function (r) {
-          if (r.ok) { window.location.href = 'thank-you.html'; return; }
+          if (r.ok) {
+            return r.json().then(function (d) { rememberEstimate(d && d.reference); }, function () { rememberEstimate(null); })
+              .then(function () { window.location.href = 'thank-you.html'; });
+          }
           if (r.status === 400 || r.status === 429) {
             return r.json().then(function (d) {
               submitBtn.disabled = false; submitBtn.textContent = 'Request my quote';
@@ -325,7 +338,7 @@
         .catch(function () {
           // Safety net: if our own server is unreachable, send straight to Formspree so no lead is lost.
           fetch(quoteForm.action, { method: 'POST', body: new FormData(quoteForm), headers: { 'Accept': 'application/json' } })
-            .then(function (r) { if (r.ok) { window.location.href = 'thank-you.html'; } else { fail(); } })
+            .then(function (r) { if (r.ok) { rememberEstimate(null); window.location.href = 'thank-you.html'; } else { fail(); } })
             .catch(fail);
         });
     });

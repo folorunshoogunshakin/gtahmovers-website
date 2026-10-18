@@ -29,6 +29,12 @@
   <div class="container" style="max-width:560px;">
     <h1>Got it — thanks.</h1>
     <p class="lede" style="margin:0 auto 28px;">Your quote request is in. We'll review the details and reply within two hours during business hours. If it's outside business hours, you'll hear from us the next morning.</p>
+    <div id="est-echo" hidden style="text-align:left; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin:0 auto 28px;">
+      <div style="font-size:13px; font-weight:600; color:var(--ink-muted);">The estimate you saw</div>
+      <div id="est-echo-range" style="font-family:'Archivo',sans-serif; font-weight:700; font-size:30px; line-height:1.2; margin:4px 0 8px;"></div>
+      <div id="est-echo-detail" style="font-size:14px; color:var(--ink-muted);"></div>
+      <p style="font-size:14px; color:var(--ink-muted); margin:14px 0 0;">This is a tentative range before HST. Your written quote replaces it and is the price we hold to. <span id="est-echo-ref"></span></p>
+    </div>
     <a class="btn btn-secondary" href="index.html">Back to home</a>
   </div>
 </section>
@@ -40,5 +46,26 @@
   </div>
 </footer>
 
+<script>
+  (function () {
+    try {
+      var raw = sessionStorage.getItem('gtah_last_estimate');
+      if (!raw) return;
+      sessionStorage.removeItem('gtah_last_estimate');
+      var s = JSON.parse(raw);
+      if (!s || !s.range) return;
+      document.getElementById('est-echo-range').textContent = s.range;
+      var bits = [s.route, s.size];
+      if (s.date) {
+        var p = s.date.split('-');
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        if (p.length === 3) bits.push(months[Number(p[1]) - 1] + ' ' + Number(p[2]) + ', ' + p[0]);
+      }
+      document.getElementById('est-echo-detail').textContent = bits.filter(Boolean).join('  |  ');
+      if (s.id) document.getElementById('est-echo-ref').textContent = 'Your reference: #' + s.id + '.';
+      document.getElementById('est-echo').hidden = false;
+    } catch (e) {}
+  })();
+</script>
 </body>
 </html>
