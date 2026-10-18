@@ -76,7 +76,7 @@
               <option value="other_canada">Other place in Canada</option>
               <option value="united_states">United States</option>
             </select>
-            <input id="e-from-addr" type="text" maxlength="120" autocomplete="off" placeholder="Street address (optional, more accurate)" style="margin-top:8px;"></div>
+            <input id="e-from-addr" type="text" maxlength="120" autocomplete="off" placeholder="Street address (optional)" style="margin-top:8px;"></div>
           <div class="field"><label for="e-to">Moving to</label>
             <select id="e-to" required><option value="">Choose a city</option>
               <option value="toronto">Toronto</option>
@@ -108,7 +108,7 @@
               <option value="other_canada">Other place in Canada</option>
               <option value="united_states">United States</option>
             </select>
-            <input id="e-to-addr" type="text" maxlength="120" autocomplete="off" placeholder="Street address (optional, more accurate)" style="margin-top:8px;"></div>
+            <input id="e-to-addr" type="text" maxlength="120" autocomplete="off" placeholder="Street address (optional)" style="margin-top:8px;"></div>
           <div class="field"><label for="e-size">Home size</label>
             <select id="e-size" required>
               <option value="">Choose size</option>
@@ -241,7 +241,7 @@
     ['e-from', 'e-to'].forEach(function (id) {
       $(id).addEventListener('change', function () {
         var other = $(id).value === 'other_canada';
-        $(id + '-addr').placeholder = other ? 'Street address and town (needed for this option)' : 'Street address (optional, more accurate)';
+        $(id + '-addr').placeholder = other ? 'Street address and town (required)' : 'Street address (optional)';
         $(id + '-addr').required = other;
       });
     });
