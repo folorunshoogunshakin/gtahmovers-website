@@ -294,70 +294,16 @@
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <h2 style="text-align:center;">Tell us about your move</h2>
-    <p style="text-align:center; margin-left:auto; margin-right:auto;">Takes about two minutes. Want a number first? <a href="quote.html#estimator">Get an instant estimate</a>. We'll follow up with a written quote.</p>
-    <div class="quote-wrap">
-      <form id="quote-form" action="https://formspree.io/f/mwlkqzel" method="POST">
-        <input type="hidden" name="_subject" value="New quote request — GTAH Movers website">
-        <div class="form-grid">
-          <div class="field"><label for="fn">First name</label><input id="fn" name="first_name" type="text" required></div>
-          <div class="field"><label for="ln">Last name</label><input id="ln" name="last_name" type="text" required></div>
-          <div class="field"><label for="ph">Phone</label><input id="ph" name="phone" type="tel" required></div>
-          <div class="field"><label for="em">Email</label><input id="em" name="email" type="email" required></div>
-          <div class="field"><label for="from">Moving from</label><input id="from" name="moving_from" type="text" placeholder="City or postal code"></div>
-          <div class="field"><label for="to">Moving to</label><input id="to" name="moving_to" type="text" placeholder="City or postal code"></div>
-          <div class="field"><label for="date">Preferred date</label><input id="date" name="preferred_date" type="date"></div>
-          <div class="field">
-            <label for="service">Service type</label>
-            <select id="service" name="service_type">
-              <option>Residential moving</option>
-              <option>Corridor / long-distance</option>
-              <option>Packing services</option>
-              <option>Office & commercial</option>
-            </select>
-          </div>
-          <div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes" name="notes" placeholder="Stairs, elevator, parking, or anything unusual"></textarea></div>
-          <div class="field full">
-            <label class="consent"><input type="checkbox" name="casl_consent" value="Yes" required> I agree to be contacted by GTAH Movers by phone, email, or text about this quote. You can unsubscribe at any time.</label>
-          </div>
-        </div>
-        <p class="form-note">Submitting this form does not book your move — we'll follow up with a written quote first.</p>
-        <button class="btn btn-primary" type="submit" style="margin-top:8px;">Request my quote</button>
-      </form>
+<section id="quote">
+  <div class="container" style="text-align:center;">
+    <h2>Get your instant estimate</h2>
+    <p style="margin-left:auto; margin-right:auto;">Takes about two minutes. Pick your cities, home size and date for an instant tentative range. We then send a written quote within two hours.</p>
+    <div class="hero-ctas" style="justify-content:center;">
+      <a class="btn btn-primary" href="quote.html#estimator">Get my instant estimate</a>
+      <a class="btn btn-secondary" href="tel:+16137701748">Call (613) 770-1748</a>
     </div>
   </div>
 </section>
-
-<script>
-  const quoteForm = document.getElementById('quote-form');
-  if (quoteForm) {
-    quoteForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const submitBtn = quoteForm.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
-      fetch(quoteForm.action, {
-        method: 'POST',
-        body: new FormData(quoteForm),
-        headers: { 'Accept': 'application/json' }
-      }).then(function (response) {
-        if (response.ok) {
-          window.location.href = 'thank-you.html';
-        } else {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Request my quote';
-          alert('Something went wrong sending your request. Please call us instead at (613) 770-1748 or (647) 544-8571.');
-        }
-      }).catch(function () {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Request my quote';
-        alert('Something went wrong sending your request. Please call us instead at (613) 770-1748 or (647) 544-8571.');
-      });
-    });
-  }
-</script>
 
 <footer class="site">
   <div class="container footer-grid">
