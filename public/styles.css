@@ -163,6 +163,8 @@ nav.primary a.cta { background: var(--green); color: #fff; padding: 10px 18px; b
   max-width: 780px; margin: 32px auto 36px;
 }
 .coverage-panel svg { width: 100%; height: auto; display: block; }
+.coverage-panel img { width: 100%; height: auto; display: block; border-radius: 8px; }
+@media (max-width: 600px) { .coverage-panel { padding: 8px; } }
 .coverage-caption { text-align: center; margin-top: 18px; color: var(--ink-muted); font-size: 15px; }
 
 /* Areas */

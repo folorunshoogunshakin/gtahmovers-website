@@ -216,64 +216,7 @@
     <h2>Ottawa to Niagara and beyond.</h2>
     <p>Based in the GTA and Hamilton, with regular corridor moves spanning eastern to southern Ontario, plus coast-to-coast moves Canada-wide and cross-border moves into the USA.</p>
     <div class="coverage-panel">
-      <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="mapgrid" width="26" height="26" patternUnits="userSpaceOnUse">
-            <circle cx="1.5" cy="1.5" r="1.5" fill="#EDEBE3"/>
-          </pattern>
-        </defs>
-        <rect x="0" y="0" width="760" height="320" fill="url(#mapgrid)"/>
-
-        <!-- compass -->
-        <g transform="translate(700,40)" stroke="#B8B2A0" stroke-width="1.5" fill="none">
-          <line x1="0" y1="-14" x2="0" y2="14"/>
-          <line x1="-14" y1="0" x2="14" y2="0"/>
-        </g>
-        <text x="700" y="24" font-family="Arial, sans-serif" font-size="11" fill="#B8B2A0" text-anchor="middle">N</text>
-
-        <!-- connecting route -->
-        <path d="M70,150 C 220,190 330,120 380,190 C 430,240 480,160 520,175 C 570,190 610,150 650,190" fill="none" stroke="#D8D3C4" stroke-width="2"/>
-        <path d="M380,190 L380,255" fill="none" stroke="#D8D3C4" stroke-width="2" stroke-dasharray="5 6"/>
-
-        <!-- Pin marker template reused via translate -->
-        <g id="pins">
-          <g transform="translate(70,150)">
-            <path d="M0,-16 C8,-16 14,-10 14,-3 C14,8 0,22 0,22 C0,22 -14,8 -14,-3 C-14,-10 -8,-16 0,-16 Z" fill="#04503D"/>
-            <circle cx="0" cy="-3" r="5" fill="#fff"/>
-          </g>
-          <text x="70" y="248" font-family="Arial, sans-serif" font-size="13" fill="#04503D" text-anchor="middle">Vancouver</text>
-
-          <g transform="translate(380,190)">
-            <path d="M0,-16 C8,-16 14,-10 14,-3 C14,8 0,22 0,22 C0,22 -14,8 -14,-3 C-14,-10 -8,-16 0,-16 Z" fill="#04503D"/>
-            <circle cx="0" cy="-3" r="5" fill="#fff"/>
-          </g>
-          <text x="380" y="30" font-family="Arial, sans-serif" font-size="13" fill="#04503D" text-anchor="middle">GTA & Hamilton</text>
-
-          <g transform="translate(520,175)">
-            <path d="M0,-19 C9.5,-19 16.5,-12 16.5,-3.5 C16.5,9.5 0,26 0,26 C0,26 -16.5,9.5 -16.5,-3.5 C-16.5,-12 -9.5,-19 0,-19 Z" fill="#936839"/>
-            <circle cx="0" cy="-3.5" r="6" fill="#fff"/>
-          </g>
-          <text x="520" y="220" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#936839" text-anchor="middle">Ottawa</text>
-
-          <g transform="translate(590,155)">
-            <path d="M0,-16 C8,-16 14,-10 14,-3 C14,8 0,22 0,22 C0,22 -14,8 -14,-3 C-14,-10 -8,-16 0,-16 Z" fill="#04503D"/>
-            <circle cx="0" cy="-3" r="5" fill="#fff"/>
-          </g>
-          <text x="590" y="35" font-family="Arial, sans-serif" font-size="13" fill="#04503D" text-anchor="middle">Montreal</text>
-
-          <g transform="translate(650,190)">
-            <path d="M0,-16 C8,-16 14,-10 14,-3 C14,8 0,22 0,22 C0,22 -14,8 -14,-3 C-14,-10 -8,-16 0,-16 Z" fill="#04503D"/>
-            <circle cx="0" cy="-3" r="5" fill="#fff"/>
-          </g>
-          <text x="650" y="248" font-family="Arial, sans-serif" font-size="13" fill="#04503D" text-anchor="middle">Halifax</text>
-
-          <g transform="translate(380,268)">
-            <path d="M0,-13 C6.5,-13 11.5,-8 11.5,-2.5 C11.5,6.5 0,18 0,18 C0,18 -11.5,6.5 -11.5,-2.5 C-11.5,-8 -6.5,-13 0,-13 Z" fill="#667069"/>
-            <circle cx="0" cy="-2.5" r="4" fill="#fff"/>
-          </g>
-          <text x="380" y="300" font-family="Arial, sans-serif" font-size="13" fill="#667069" text-anchor="middle">USA</text>
-        </g>
-      </svg>
+      <img src="/coverage-map.svg" width="760" height="392" loading="lazy" decoding="async" alt="Map of Canada and the northern United States. GTA and Hamilton are our base, with regular moves to Ottawa, Montreal, Halifax and Vancouver, and cross-border moves into the USA.">
     </div>
     <div class="areas-list">
       <span class="area-chip">Ottawa</span>
