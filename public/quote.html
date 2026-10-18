@@ -75,7 +75,8 @@
               <option value="montreal">Montreal</option>
               <option value="other_canada">Other place in Canada</option>
               <option value="united_states">United States</option>
-            </select></div>
+            </select>
+            <input id="e-from-addr" type="text" maxlength="120" autocomplete="off" placeholder="Street address (optional, more accurate)" style="margin-top:8px;"></div>
           <div class="field"><label for="e-to">Moving to</label>
             <select id="e-to" required><option value="">Choose a city</option>
               <option value="toronto">Toronto</option>
@@ -106,7 +107,8 @@
               <option value="montreal">Montreal</option>
               <option value="other_canada">Other place in Canada</option>
               <option value="united_states">United States</option>
-            </select></div>
+            </select>
+            <input id="e-to-addr" type="text" maxlength="120" autocomplete="off" placeholder="Street address (optional, more accurate)" style="margin-top:8px;"></div>
           <div class="field"><label for="e-size">Home size</label>
             <select id="e-size" required>
               <option value="">Choose size</option>
@@ -198,8 +200,8 @@
     function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
     function prefill(est) {
-      $('from').value = label($('e-from'));
-      $('to').value = label($('e-to'));
+      $('from').value = placeText('e-from', 'e-from-addr');
+      $('to').value = placeText('e-to', 'e-to-addr');
       if ($('e-date').value) $('date').value = $('e-date').value;
       var inputs = label($('e-size')) + '; elevator: ' + label($('e-elev')) + '; extra stairs: ' + $('e-stairs').value +
         '; heavy items: ' + $('e-heavy').value + '; packing: ' + ($('e-pack').value === 'true' ? 'yes' : 'no');
@@ -222,6 +224,27 @@
       });
     }
 
+    function buildReq() {
+      return {
+        fromCity: $('e-from').value, toCity: $('e-to').value, homeSize: $('e-size').value,
+        fromAddress: $('e-from-addr').value.trim(), toAddress: $('e-to-addr').value.trim(),
+        moveDate: $('e-date').value || null, elevatorStatus: $('e-elev').value,
+        stairsFlights: Number($('e-stairs').value), heavyItems: Number($('e-heavy').value),
+        packingRequired: $('e-pack').value === 'true'
+      };
+    }
+    function placeText(selId, addrId) {
+      var a = $(addrId).value.trim(), c = label($(selId));
+      return $(selId).value === 'other_canada' ? (a || c) : (a ? a + ', ' + c : c);
+    }
+    ['e-from', 'e-to'].forEach(function (id) {
+      $(id).addEventListener('change', function () {
+        var other = $(id).value === 'other_canada';
+        $(id + '-addr').placeholder = other ? 'Street address and town (needed for this option)' : 'Street address (optional, more accurate)';
+        $(id + '-addr').required = other;
+      });
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!$('e-from').value || !$('e-to').value || !$('e-size').value) {
@@ -229,34 +252,25 @@
         return;
       }
       btn.disabled = true; btn.textContent = 'Working it out…';
-      var reqBody = {
-          fromCity: $('e-from').value, toCity: $('e-to').value, homeSize: $('e-size').value,
-          moveDate: $('e-date').value || null, elevatorStatus: $('e-elev').value,
-          stairsFlights: Number($('e-stairs').value), heavyItems: Number($('e-heavy').value),
-          packingRequired: $('e-pack').value === 'true'
-      };
+      var reqBody = buildReq();
       window.gtahEstimateRequest = reqBody;
       fetch('/api/estimate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fromCity: $('e-from').value, toCity: $('e-to').value, homeSize: $('e-size').value,
-          moveDate: $('e-date').value || null, elevatorStatus: $('e-elev').value,
-          stairsFlights: Number($('e-stairs').value), heavyItems: Number($('e-heavy').value),
-          packingRequired: $('e-pack').value === 'true'
-        })
+        body: JSON.stringify(reqBody)
       }).then(function (r) { return r.json(); }).then(function (d) {
         var cta = '<p><a class="btn btn-primary" id="go-request" href="#request">Request my written quote</a></p>';
         if (d.status === 'ok') {
           var fmt = function (n) { return '$' + Number(n).toLocaleString('en-CA'); };
           var rng = fmt(d.display.low) + ' to ' + fmt(d.display.high);
-          window.gtahEstimateSummary = { range: rng, route: label($('e-from')) + ' to ' + label($('e-to')), size: label($('e-size')), date: $('e-date').value || '' };
+          window.gtahEstimateSummary = { range: rng, route: label($('e-from')) + ' to ' + label($('e-to')), km: d.distanceKmApprox, size: label($('e-size')), date: $('e-date').value || '' };
           var notes = (d.notes || []).map(function (n) { return '<li>' + esc(n.message || n) + '</li>'; }).join('');
           var kind = d.jobType === 'local' ? 'Local moves are billed by the hour, so this is a range, not a fixed price.' :
             'Based on a flat rate for this route and your answers.';
           show('<div class="est-box"><div class="est-label">Tentative estimate before HST</div>' +
             '<div class="est-range">' + esc(rng) + '</div><p class="est-kind">' + esc(kind) + '</p>' +
             (notes ? '<ul class="est-notes">' + notes + '</ul>' : '') +
+            (d.distanceSource === 'address' ? '<p class="est-fine">Distance worked out from your addresses (about ' + esc(String(d.distanceKmApprox)) + ' km by road).</p>' : '') +
             '<p class="est-fine">This is a tentative estimate. Your written quote, sent within two hours, is the one that binds.</p>' + cta + '</div>',
             rng + ' before HST');
         } else if (d.status === 'manual') {
