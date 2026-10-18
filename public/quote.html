@@ -266,7 +266,7 @@
           window.gtahEstimateSummary = { range: rng, route: label($('e-from')) + ' to ' + label($('e-to')), km: d.distanceKmApprox, size: label($('e-size')), date: $('e-date').value || '' };
           var notes = (d.notes || []).map(function (n) { return '<li>' + esc(n.message || n) + '</li>'; }).join('');
           var kind = d.jobType === 'local' ? 'Local moves are billed by the hour, so this is a range, not a fixed price.' :
-            'Based on a flat rate for this route and your answers.';
+            (d.jobType === 'long_distance' ? 'Long-distance moves are priced by distance and the size of your move, so this is an indicative range.' : 'Based on a flat rate for this route and your answers.');
           show('<div class="est-box"><div class="est-label">Tentative estimate before HST</div>' +
             '<div class="est-range">' + esc(rng) + '</div><p class="est-kind">' + esc(kind) + '</p>' +
             (notes ? '<ul class="est-notes">' + notes + '</ul>' : '') +
