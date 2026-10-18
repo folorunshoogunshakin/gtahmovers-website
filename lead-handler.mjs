@@ -7,6 +7,10 @@
 
 import { handleEstimateRequest } from "./estimate-handler.mjs";
 
+// Customer-facing reference number = database id + this base, so the first lead is #1075.
+export const REFERENCE_BASE = 1074;
+export const leadReference = (id) => REFERENCE_BASE + Number(id);
+
 export const RATE_LIMITS = { windowMs: 60 * 60 * 1000, perIp: 5, perEmail: 3, total: 100 };
 
 const MAX = { short: 200, notes: 3000 };
@@ -97,8 +101,8 @@ export function notificationPayload(id, r) {
   const money = (n) => (n == null ? null : "$" + n.toLocaleString("en-CA"));
   const est = r.estimate_low != null ? `${money(r.estimate_low)} to ${money(r.estimate_high)} before HST (${r.estimate_job_type})` : "No instant estimate";
   return {
-    _subject: `New quote request #${id}: ${r.first_name} ${r.last_name}${r.estimate_low != null ? " (" + money(r.estimate_low) + " to " + money(r.estimate_high) + ")" : ""}`,
-    lead_id: id,
+    _subject: `New quote request #${leadReference(id)}: ${r.first_name} ${r.last_name}${r.estimate_low != null ? " (" + money(r.estimate_low) + " to " + money(r.estimate_high) + ")" : ""}`,
+    lead_id: leadReference(id),
     name: `${r.first_name} ${r.last_name}`,
     phone: r.phone,
     email: r.email,
@@ -161,7 +165,7 @@ export async function handleLeadRequest(body, deps) {
   } catch (err) {
     console.error("status update failed", err);
   }
-  return { httpStatus: 200, json: { status: "ok", id } };
+  return { httpStatus: 200, json: { status: "ok", id, reference: leadReference(id) } };
 }
 
 // ---- CSV export ----
@@ -172,6 +176,6 @@ const csvCell = (v) => {
 };
 
 export function leadsToCsv(rows) {
-  const cols = ["id", ...LEAD_COLUMNS];
-  return [cols.join(","), ...rows.map((row) => cols.map((c) => csvCell(row[c])).join(","))].join("\n") + "\n";
+  const cols = ["reference", "id", ...LEAD_COLUMNS];
+  return [cols.join(","), ...rows.map((row) => cols.map((c) => csvCell(c === "reference" ? leadReference(row.id) : row[c])).join(","))].join("\n") + "\n";
 }
