@@ -27,7 +27,7 @@
 
 <section style="padding-top:96px; padding-bottom:96px; text-align:center;">
   <div class="container" style="max-width:560px;">
-    <h1>Got it — thanks.</h1>
+    <h1>Got it, thanks.</h1>
     <p class="lede" style="margin:0 auto 28px;">Your quote request is in. We'll review the details and reply within two hours during business hours. If it's outside business hours, you'll hear from us the next morning.</p>
     <div id="est-echo" hidden style="text-align:left; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin:0 auto 28px;">
       <div style="font-size:13px; font-weight:600; color:var(--ink-muted);">The estimate you saw</div>
@@ -35,6 +35,7 @@
       <div id="est-echo-detail" style="font-size:14px; color:var(--ink-muted);"></div>
       <p style="font-size:14px; color:var(--ink-muted); margin:14px 0 0;">This is a tentative range before HST. Your written quote replaces it and is the price we hold to. <span id="est-echo-ref"></span></p>
     </div>
+    <p id="review-line" hidden style="font-size:14px; color:var(--ink-muted); margin:0 0 20px;">Moved with us before? <a id="review-link" href="#" target="_blank" rel="noopener">Leave us a Google review</a>.</p>
     <a class="btn btn-secondary" href="index.html">Back to home</a>
   </div>
 </section>
@@ -47,6 +48,13 @@
 </footer>
 
 <script>
+  // Paste your Google review link between the quotes. While it is empty, nothing shows.
+  // Get it in Google Business Profile: Get more reviews > Share review form.
+  var GOOGLE_REVIEW_URL = '';
+  if (/^https:\/\//.test(GOOGLE_REVIEW_URL)) {
+    document.getElementById('review-link').href = GOOGLE_REVIEW_URL;
+    document.getElementById('review-line').hidden = false;
+  }
   (function () {
     try {
       var raw = sessionStorage.getItem('gtah_last_estimate');
